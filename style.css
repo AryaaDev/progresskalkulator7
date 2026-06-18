@@ -1,0 +1,1551 @@
+/* ===================== RESET ===================== */
+html{
+    scroll-behavior:smooth;
+    -webkit-text-size-adjust:100%;
+}
+
+body{
+    text-rendering: optimizeSpeed; 
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+img,
+svg,
+canvas{
+    display:block;
+    max-width:100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  -webkit-tap-highlight-color: transparent; /* Mencegah kedipan biru saat elemen di-tap di HP */
+}
+
+:root{
+  --bg-top:#090057;
+  --bg-mid:#121b8f;
+  --bg-bottom:#4054ff;
+
+  --text:#ffffff;
+  --text-soft:rgba(255,255,255,.85);
+
+  --glass:rgba(255,255,255,.06);
+  --border:rgba(255,255,255,.08);
+
+  --primary:#ffffff;
+  --primary-text:#111827;
+
+  --secondary:#232a7a;
+  --secondary-hover:#3039a6;
+
+  --shadow:rgba(0,0,0,.35);
+
+  --blur-card:8px;
+  --blur-modal:10px;
+  --blur-footer:8px;
+}
+
+.card,
+.footer-floating,
+.history-item,
+.btn-tutorial-fixed{
+    transform:translateZ(0);
+    backface-visibility:hidden;
+}
+
+.matrix-wrapper,
+.output-wrapper {
+  scroll-behavior: smooth; /* Tambahkan agar pergeseran scroll manual terasa lebih halus */
+}
+
+/* ===================== BODY ===================== */
+body{
+  overflow-x:hidden;
+  overscroll-behavior-y:none;
+  min-height:100vh;
+  color:var(--text);
+  position:relative;
+
+  background:
+  radial-gradient(circle at 20% 30%, rgba(164,83,255,.35) 0%, transparent 14%),
+  radial-gradient(circle at 80% 20%, rgba(255,255,255,.20) 0%, transparent 10%),
+  radial-gradient(circle at 75% 85%, rgba(185,132,255,.25) 0%, transparent 10%),
+  linear-gradient(
+      180deg,
+      var(--bg-top) 0%,
+      var(--bg-mid) 55%,
+      var(--bg-bottom) 100%
+      
+  );
+background-attachment:scroll;
+}
+
+/* ===================== DISCORD STARS ===================== */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+
+  opacity:.55; 
+
+  background-image:
+    radial-gradient(rgba(255,255,255,.9) 1.2px, transparent 1.2px),
+    radial-gradient(rgba(180,130,255,.8) 1px, transparent 1px);
+
+  background-size:110px 110px, 160px 160px;
+  background-position:0 0, 55px 55px;
+
+  filter:none;
+  transform:translate3d(0,0,0);
+  animation:starsMove 60s linear infinite;
+}
+
+@keyframes starsMove{
+  from{
+    transform:translateY(0);
+  }
+  to{
+    transform:translateY(-80px);
+  }
+}
+
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+
+  background:
+  radial-gradient(
+      circle at 20% 20%,
+      rgba(255,255,255,.12),
+      transparent 12%
+  ),
+
+  radial-gradient(
+      circle at 80% 80%,
+      rgba(180,80,255,.15),
+      transparent 14%
+  );
+
+  opacity:.8;
+}
+
+/* ===================== CONTAINER ===================== */
+.container {
+    width: min(100%, 1100px);
+    margin-inline: auto;
+
+    /* Lebih aman dipisah eksplisit untuk menghindari bug render di Safari */
+    padding-top: clamp(16px, 3vw, 32px);
+    padding-right: max(20px, env(safe-area-inset-right));
+    padding-bottom: clamp(16px, 3vw, 32px);
+    padding-left: max(20px, env(safe-area-inset-left));
+
+    position: relative;
+    z-index: 2;
+}
+
+/* ===================== TITLE ===================== */
+h1{
+  text-align:center;
+  font-size:clamp(32px,5vw,62px);
+  font-weight:900;
+  color:#fff;
+  text-transform:uppercase;
+  letter-spacing:-1px;
+  line-height:1;
+  margin-bottom:25px;
+  text-shadow:0 5px 20px rgba(0,0,0,.25);
+}
+
+/* ===================== CARD ===================== */
+.card{    
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+
+    border-radius:24px;
+
+    padding:24px;
+    margin-bottom:20px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.20);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+@media (hover:hover){
+
+    .card:hover{
+    transform:translate3d(0,-4px,0);
+            box-shadow:
+            0 14px 35px rgba(0,0,0,.30);
+    }
+
+    button:hover{
+    transform:translate3d(0,-2px,0);
+    }
+
+    .history-item:hover{
+        background:rgba(255,255,255,.10);
+    }
+
+}
+
+/* ===================== INPUT ===================== */
+button,
+select,
+input,
+textarea{
+    width:100%;
+    padding:14px 16px;
+    margin-top:10px;
+
+    min-height:48px;
+
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.10);
+
+    background:rgba(255,255,255,.08);
+    color:#fff;
+
+    font-size:16px;
+
+    outline:none;
+
+    appearance:none;
+    -webkit-appearance:none;
+    touch-action: manipulation; /* Menghilangkan delay 300ms saat disentuh, respons instan! */
+    transition:.25s;
+}
+
+/* SELECT */
+#gauss-size,
+#gs-size,
+#metode{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+}
+
+/* OPTION DROPDOWN */
+#gauss-size option,
+#gs-size option,
+#metode option{
+    background:#1a237e;
+    color:#ffffff;
+}
+
+select::placeholder,
+input::placeholder,
+textarea::placeholder{
+  color:rgba(255,255,255,.6);
+}
+
+select:focus,
+input:focus,
+textarea:focus{
+  border-color:#ffffff;
+  box-shadow:0 0 0 4px rgba(255,255,255,.12);
+}
+
+/* ===================== BUTTON ===================== */
+button{
+  width:100%;
+
+  padding:16px;
+  margin-top:12px;
+
+  border:none;
+  border-radius:999px;
+
+  background:#ffffff;
+  color:#111827;
+
+  font-size:17px;
+  font-weight:700;
+
+  cursor:pointer;
+
+  box-shadow:
+  0 10px 30px rgba(0,0,0,.25);
+
+    transform:translateZ(0);
+
+  transition:
+      transform .25s ease,
+      background .25s ease,
+      box-shadow .25s ease;
+
+}
+
+.btn-danger{
+    background:linear-gradient(
+        135deg,
+        #ef4444,
+        #dc2626
+    ) !important;
+    color:#fff !important;
+}
+
+.btn-danger:hover{
+    background:linear-gradient(
+        135deg,
+        #dc2626,
+        #b91c1c
+    ) !important;
+}
+
+button:active{
+  transform:scale(.98);
+}
+
+/* ===================== OUTPUT ===================== */
+.output{
+    margin-top:15px;
+
+    background:linear-gradient(
+        135deg,
+        #0b1447 0%,
+        #13206b 50%,
+        #1d2f8a 100%
+    );
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:18px;
+    padding:18px;
+
+    color:#ffffff;
+
+    font-family:Consolas, monospace;
+    white-space:pre-wrap;
+    line-height:1.6;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        0 10px 30px rgba(0,0,0,.25);
+}
+
+/* ===================== FLOATING SAAS FOOTER ===================== */
+.footer-floating{
+    position:relative;
+    margin-top:15px;
+    padding:16px 18px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.25);
+
+    overflow:hidden;
+
+    transform:translateY(0);
+    transition:transform .4s ease, box-shadow .4s ease;
+}
+
+/* floating hover feel */
+.footer-floating:hover{
+    transform:translate3d(0,-4px,0);
+    box-shadow:
+        0 30px 60px rgba(0,0,0,.35);
+}
+
+/* glow animasi */
+.footer-glow{
+        pointer-events:none;
+    z-index:1;
+    position:absolute;
+    width:200px;
+    height:200px;
+
+    top:-80px;
+    left:50%;
+    transform:translateX(-50%);
+
+    background:rgba(64,84,255,.25);
+    filter:blur(25px);
+    animation:floatGlow 8s ease-in-out infinite;
+}
+
+.footer-content{
+    position:relative;
+    z-index:2;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+/* LEFT */
+.footer-left{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-size:13px;
+    color:rgba(255,255,255,.75);
+}
+
+.footer-left a{
+    color:#fff;
+    font-weight:600;
+    text-decoration:none;
+    position:relative;
+}
+
+.footer-left a::after{
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-2px;
+
+    width:0%;
+    height:1px;
+
+    background:#fff;
+    transition:.3s;
+}
+
+.footer-left a:hover::after{
+    width:100%;
+}
+
+/* RIGHT ICONS */
+.footer-right{
+    display:flex;
+    gap:8px;
+}
+
+.footer-right .icon{
+    width:32px;
+    height:32px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.06);
+
+    color:rgba(255,255,255,.8);
+    text-decoration:none;
+
+    transition:.25s ease;
+}
+
+.footer-right .icon:hover{
+    transform:translateY(-3px) scale(1.05);
+    background:rgba(255,255,255,.12);
+    color:#fff;
+}
+
+/* ===================== ANIMATION ===================== */
+
+@keyframes floatGlow{
+    0%,100%{
+        transform:translateX(-50%) scale(1);
+        opacity:.6;
+    }
+    50%{
+        transform:translateX(-50%) scale(1.1);
+        opacity:.9;
+    }
+}
+
+/* ===================== SPLASH SCREEN (MODERN & ANTI-LAG) ===================== */
+#splash {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+
+  background: linear-gradient(
+      180deg,
+      #090057 0%,
+      #121b8f 55%,
+      #4054ff 100%
+  );
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  /* Mencegah lag dengan memaksa browser menggunakan GPU */
+  transform: translateZ(0);
+  
+  /* Animasi keluar yang lebih elegan (sedikit nge-zoom saat hilang) */
+  animation: splashFadeOut 0.8s cubic-bezier(0.8, 0, 0.2, 1) forwards;
+  animation-delay: 2.2s; /* Waktu tunggu sebelum splash screen hilang */
+}
+
+.splash-text {
+  font-size: clamp(42px, 8vw, 58px); /* Responsif untuk HP dan Desktop */
+  font-weight: 900;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  
+  /* Memberikan kedalaman visual */
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
+  will-change: transform, opacity, filter;
+  
+  /* Animasi masuk yang sinematik */
+  animation: textReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.splash-sub {
+  margin-top: 10px;
+  font-size: clamp(14px, 4vw, 18px);
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  letter-spacing: 1px;
+
+  /* Dibuat tidak terlihat dulu sebelum animasinya berjalan */
+  opacity: 0;
+  will-change: transform, opacity;
+
+  /* Delay 0.3s agar muncul setelah teks utama (Staggered Effect) */
+  animation: subReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+/* ===================== KEYFRAMES ANIMASI ===================== */
+
+@keyframes splashFadeOut {
+  0% {
+      opacity: 1;
+      visibility: visible;
+      transform: scale(1);
+  }
+  100% {
+      opacity: 0;
+      visibility: hidden;
+      transform: scale(1.05); /* Memberi kesan pengguna "masuk" ke dalam web */
+  }
+}
+
+/* Animasi untuk Teks Utama (Muncul dari bawah + Blur) */
+@keyframes textReveal {
+  0% {
+      opacity: 0;
+      transform: translateY(40px) scale(0.95);
+      filter: blur(10px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+  }
+}
+
+/* Animasi untuk Teks Subtitle (Meluncur mulus dari bawah) */
+@keyframes subReveal {
+  0% {
+      opacity: 0;
+      transform: translateY(20px);
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+/* ===================== LOADING ===================== */
+.loading{
+  display:none;
+  text-align:center;
+  margin-top:12px;
+  color:#fff;
+  font-weight:700;
+
+  animation:blink 1s infinite;
+}
+
+/* ===================== MATRIX ===================== */
+.matrix-grid{
+  border-collapse:separate;
+  border-spacing:8px;
+  margin-top:10px;
+}
+
+.matrix-grid td{
+  padding:2px;
+}
+
+.matrix-grid input{
+  width:75px;
+  text-align:center;
+  text-overflow: ellipsis; /* Tambahkan ini agar teks yang kepanjangan menjadi "..." */
+  overflow: hidden;        /* Tambahkan ini bersamaan dengan text-overflow */
+  white-space: nowrap; /* 🔥 Tambahkan baris ini agar bug teratasi */
+}
+
+/* ===================== MODAL ===================== */
+.modal{
+  position:fixed;
+  inset:0;
+
+  background:rgba(0,0,0,.6);
+
+  display:none;
+  justify-content:center;
+  align-items:center;
+
+  z-index:9999;
+      overscroll-behavior:contain;
+
+}
+
+.modal.active{
+  display:flex;
+}
+
+.modal-content{
+  will-change:transform;
+  width:90%;
+  max-width:900px;
+  max-height:90vh;
+
+  overflow:auto;
+
+  background:rgba(14,18,80,.95);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:24px;
+  padding:24px;
+
+  backdrop-filter:blur(var(--blur-modal));
+  -webkit-backdrop-filter:blur(var(--blur-modal));
+
+  animation:zoomIn .25s ease;
+      scrollbar-width:thin;
+
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* ===================== TUTORIAL SPACING ===================== */
+.modal-body h3{
+    margin-top:20px;
+    margin-bottom:15px;
+}
+
+.modal-body h3:first-child{
+    margin-top:0;
+}
+
+.tutorial-divider{
+    border:none;
+    height:1px;
+    background:rgba(255,255,255,.15);
+    margin:20px 0;
+}
+
+/* ===================== CLOSE BUTTON ===================== */
+.close-btn{
+  width:42px;
+  height:42px;
+  margin-bottom: 16px;
+
+  border:none;
+  border-radius:12px;
+
+  background:rgb(255, 255, 255);
+  color:#000000;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+  transition:.25s;
+}
+
+.close-btn:hover{
+  background:rgba(255,255,255,.15);
+}
+
+/* ===================== FLOAT BUTTON ===================== */
+.btn-tutorial-fixed{
+  position:fixed;
+  top:18px;
+  right:18px;
+
+  width:50px;
+  height:50px;
+
+  border-radius:50%;
+
+  background:#ffffff;
+  color:#111827;
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+
+  cursor:pointer;
+
+  z-index:9999;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.25);
+
+  transition:.25s;
+}
+
+@media (hover:hover){
+
+  .btn-tutorial-fixed:hover{
+      transform:translate3d(0,0,0) scale(1.05);
+  }
+
+}
+
+/* ===================== SUB ACTIONS ===================== */
+.sub-actions{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+}
+
+.sub-actions button{
+    flex:1;
+
+    background:linear-gradient(
+        135deg,
+        #0b1447 0%,
+        #13206b 50%,
+        #1d2f8a 100%
+    );
+
+    color:#fff;
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.25);
+
+    transition:.25s;
+}
+
+@media (hover:hover){
+
+  .sub-actions button:hover{
+      background:linear-gradient(
+          135deg,
+          #13206b 0%,
+          #1d2f8a 50%,
+          #2940b8 100%
+      );
+
+    transform:translate3d(0,-2px,0);
+  }
+}
+
+/* ===================== HISTORY ===================== */
+.history-box{
+  display:none;
+
+  margin-top:12px;
+
+  background:rgba(255,255,255,.05);
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:16px;
+
+  padding:12px;
+
+  max-height:240px;
+  overflow:auto;
+}
+
+/* ===================== HISTORY EMPTY ===================== */
+
+.history-empty{
+    text-align:center;
+    padding:30px 15px;
+    color:rgba(255,255,255,.75);
+}
+
+.history-empty i{
+    font-size:42px;
+    margin-bottom:10px;
+    display:block;
+    opacity:.7;
+}
+
+.history-empty p{
+    font-weight:600;
+    margin-bottom:4px;
+}
+
+.history-empty small{
+    color:rgba(255,255,255,.55);
+}
+
+/* ===================== HISTORY ITEM ===================== */
+
+.history-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:10px;
+
+    padding:12px;
+    margin-bottom:8px;
+
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:12px;
+
+    transition:.25s;
+}
+
+.history-text{
+    flex:1;
+    cursor:pointer;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.history-delete{
+    width:38px;
+    height:38px;
+
+    min-width:38px;
+
+    border:none;
+    border-radius:10px;
+
+    background:rgba(239,68,68,.15);
+    color:#ef4444;
+
+    cursor:pointer;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    transition:.25s;
+}
+
+.history-delete:hover{
+    background:rgba(239,68,68,.25);
+}
+
+.history-info{
+    flex:1;
+    min-width:0;
+}
+
+.history-method{
+    font-size:14px;
+    font-weight:700;
+    color:#fff;
+    margin-bottom:3px;
+}
+
+.history-date{
+    font-size:11px;
+    color:rgba(255,255,255,.55);
+    margin-bottom:5px;
+}
+
+.history-preview{
+    font-size:12px;
+    color:rgba(255,255,255,.85);
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+/* ===================== ANIMATION ===================== */
+@keyframes zoomIn{
+  from{
+      opacity:0;
+      transform:scale(.9);
+  }
+  to{
+      opacity:1;
+      transform:scale(1);
+  }
+}
+
+@keyframes fadeOut{
+  to{
+      opacity:0;
+      visibility:hidden;
+  }
+}
+
+@keyframes blink{
+  0%,100%{
+      opacity:.4;
+  }
+  50%{
+      opacity:1;
+  }
+}
+
+/* ===================== MATRIX RESPONSIVE ===================== */
+.matrix-wrapper{
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    -webkit-overflow-scrolling:touch;
+
+    padding-bottom:8px;
+}
+
+.matrix-wrapper::-webkit-scrollbar{
+    height:8px;
+}
+
+.matrix-wrapper::-webkit-scrollbar-thumb{
+    background:rgba(255,255,255,.25);
+    border-radius:999px;
+}
+
+.matrix-grid{
+    min-width:max-content;
+}
+
+.matrix-hint{
+    display:none;
+}
+
+/* ===================== LOW END DEVICE ===================== */
+@supports (height:100dvh){
+
+    body{
+        min-height:100dvh;
+    }
+
+}
+
+:focus-visible{
+    outline:2px solid rgba(255,255,255,.6);
+    outline-offset:2px;
+}
+
+/* ===================== ACCESSIBILITY ===================== */
+@media (prefers-reduced-motion:reduce){
+    *,
+    *::before,
+    *::after{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+    }
+
+}
+
+/* Chrome, Edge, Safari */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button{
+    -webkit-appearance:none;
+    margin:0;
+}
+
+/* Firefox */
+input[type="number"]{
+    -moz-appearance:textfield;
+    appearance:textfield;
+}
+
+/* =========================
+TUTORIAL GUIDE
+========================= */
+.tutorial-guide{
+    position:fixed;
+    top:87px;
+    right:18px;
+    transform:translateY(5px);
+
+    width:240px;
+
+    background:rgba(14,18,80,.96);
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    border-radius:16px;
+
+    padding:14px 16px;
+
+    z-index:9998;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,.35);
+
+}
+
+/* panah menuju tombol tutorial */
+.guide-arrow{
+    position:absolute;
+
+    top:-8px;
+    right:24px;
+
+    width:16px;
+    height:16px;
+
+    background:rgba(14,18,80,.96);
+
+    border-left:1px solid rgba(255,255,255,.08);
+    border-top:1px solid rgba(255,255,255,.08);
+
+    transform:rotate(45deg);
+}
+
+.guide-title::before{
+    content:"";
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+
+    background:#4ade80;
+
+    display:inline-block;
+    margin-right:8px;
+
+    box-shadow:
+        0 0 10px #4ade80;
+}
+
+.guide-title{
+    font-size:14px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.guide-text{
+    font-size:12px;
+    color:rgba(255,255,255,.82);
+    line-height:1.55;
+}
+
+.guide-close{
+    position:absolute;
+    top:10px;
+    right:10px;
+
+    width:24px;
+    height:24px;
+
+    border:none;
+    border-radius:6px;
+
+    background:transparent;
+    color:rgba(255,255,255,.7);
+
+    font-size:18px;
+    line-height:1;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    cursor:pointer;
+    transition:.25s;
+}
+
+.guide-close:hover{
+    background:rgba(255,255,255,.08);
+    color:#fff;
+}
+
+/* ===================== OUTPUT SCROLL (MOBILE ONLY) ===================== */
+.output-wrapper{
+    width:100%;
+}
+
+.output-wrapper .output{
+    overflow: visible;
+}
+
+@media (hover: none), (max-width: 768px) {
+    .tutorial-card:hover,
+    .image-wrapper:hover img {
+        transform: none !important;
+        transition: none !important;
+    }
+}
+
+/* ===================== MATRIX OUTPUT RESPONSIVE ===================== */
+@media (max-width:768px){
+    body::before{
+    animation:none;
+    }
+      .container{
+      padding:
+          18px
+          max(20px, env(safe-area-inset-right))
+          18px
+          max(20px, env(safe-area-inset-left));
+  }
+
+  .card{
+      padding:18px;
+      border-radius:20px;
+  }
+
+  h1{
+      font-size:40px;
+  }
+
+  button{
+      font-size:16px;
+      padding:15px;
+  }
+
+  .sub-actions{
+      flex-direction:column;
+  }
+
+  .splash-text{
+      font-size:38px;
+  }
+    .matrix-grid input{
+        width:58px !important;
+        min-width:58px;
+        font-size:14px;
+    }
+
+    .matrix-hint{
+        display:block;
+        width:max-content;
+
+        margin:10px auto 0;
+        padding:5px 12px;
+
+        background:rgba(255,255,255,.08);
+        border:1px solid rgba(255,255,255,.10);
+
+        border-radius:999px;
+
+        font-size:10px;
+        color:rgba(255,255,255,.85);
+    }
+
+    body::before{
+        animation:none;
+    }
+
+    .tutorial-guide{
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+    background:rgba(14,18,80,.98);
+    }
+
+    .footer-glow{
+        display:none;
+    }
+
+    .card,
+    .footer-floating,
+    .modal-content{
+        backdrop-filter:blur(1px);
+        -webkit-backdrop-filter:blur(1px);
+    }
+
+    .output-wrapper{
+        width:100%;
+        overflow-x:auto;
+        overflow-y:hidden;
+
+        -webkit-overflow-scrolling:touch;
+        padding-bottom:8px;
+    }
+
+    .output-wrapper .output{
+        min-width:max-content;   /* penting biar bisa geser */
+        white-space:pre;        /* jaga format Gauss biar tidak wrap */
+    }
+
+    .output-wrapper::-webkit-scrollbar{
+        height:8px;
+    }
+
+    .output-wrapper::-webkit-scrollbar-thumb{
+        background:rgba(255,255,255,.25);
+        border-radius:999px;
+    }
+
+    .output{
+    font-size:13px;   /* HP */
+    line-height:1.3;
+    }
+}
+
+@media (max-width:480px){
+
+  h1{
+      font-size:32px;
+  }
+
+  .card{
+      border-radius:18px;
+      padding:16px;
+  }
+
+  .modal-content{
+      width:95%;
+      padding:18px;
+  }
+
+  button{
+      font-size:15px;
+  }
+  
+    .output{
+        font-size:13px;   /* HP kecil */
+    }
+}
+
+@media (min-width:1024px){
+
+    body{
+        background-attachment:fixed;
+    }
+
+}
+
+@media (max-width:600px){
+
+    .footer-content{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .footer-right{
+        justify-content:center;
+    }
+}
+
+/* ===================== MODAL ENHANCEMENTS ===================== */
+.modal-content {
+    will-change: transform, opacity;
+    width: 90%;
+    max-width: 800px; /* Dikecilkan sedikit agar lebih proporsional */
+    max-height: 85vh;
+    overflow-y: auto;
+    
+    background: rgba(14, 18, 80, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 0; /* Padding dipindah ke body/header */
+    
+    backdrop-filter: blur(var(--blur-modal));
+    -webkit-backdrop-filter: blur(var(--blur-modal));
+    animation: zoomIn .3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Animasi lebih bouncy */
+    
+    /* ANTI LAG SCROLLING */
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    transform: translateZ(0); 
+}
+
+/* Custom Scrollbar untuk Modal */
+.modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+.modal-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 0 24px 24px 0;
+}
+.modal-content::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+/* Sticky Header biar tombol close selalu kelihatan */
+.modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 16px;
+    background: rgba(14, 18, 80, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.modal-title h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal-title i {
+    font-size: 24px;
+    color: #a453ff; /* Diambil dari aksen gradient body kamu */
+}
+
+.modal-body {
+    padding: 20px 24px 24px 24px;
+}
+
+/* ===================== TUTORIAL CARDS ===================== */
+.tutorial-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 24px;
+    transition: transform .3s ease, border-color .3s ease;
+}
+
+.tutorial-card:last-child {
+    margin-bottom: 0;
+}
+
+.tutorial-card:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.tutorial-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.tutorial-card-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.tutorial-card-header i {
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Gambar Responsif & Rapi */
+.image-wrapper {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 20px;
+    background: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.image-wrapper img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform .4s ease;
+}
+
+.image-wrapper:hover img {
+    transform: scale(1.03);
+}
+
+/* ===================== LIST & TEXT STYLE ===================== */
+.tutorial-section {
+    margin-top: 24px;
+}
+
+.section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    margin-bottom: 14px;
+    font-weight: 600;
+}
+
+.text-muted {
+    color: rgb(255, 255, 255);
+    font-size: 13px;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.mt-2 { margin-top: 12px; }
+
+/* Styling List Berurut (Numbers) */
+.custom-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: step-counter;
+}
+
+.custom-list li {
+    position: relative;
+    padding-left: 36px;
+    margin-bottom: 12px;
+    font-size: 13.5px;
+    color: rgb(255, 255, 255);
+    line-height: 1.6;
+}
+
+.custom-list:not(.bullet-list) li::before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 24px;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Styling List Peluru (Bullets) */
+.bullet-list li::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 9px;
+    width: 6px;
+    height: 6px;
+    background: #a453ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(164, 83, 255, 0.8);
+}
+
+/* ===================== CODE SNIPPET BLOCKS ===================== */
+.code-block {
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.code-header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.code-block pre {
+    padding: 16px;
+    margin: 0;
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 13px;
+    color: #e2e8f0;
+    overflow-x: auto;
+    white-space: pre; /* Tetap pre agar matriks sejajar */
+    line-height: 1.5;
+}
+
+/* Khusus block matematika agar lebih standout */
+.math-block {
+    background: rgba(164, 83, 255, 0.05);
+    border-color: rgba(164, 83, 255, 0.2);
+}
+.math-block pre {
+    color: #d8b4fe;
+    font-weight: 600;
+    text-align: center;
+    white-space: pre-wrap;
+}
+
+/* ===================== MOBILE OPTIMIZATION ===================== */
+@media (max-width: 768px) {
+.close-btn {
+    width: 40px;        /* Asalnya 42px, kita kecilkan */
+    height: 10px;       /* Asalnya 42px, kita kecilkan */
+    border-radius: 8px; /* Asalnya 12px, disesuaikan agar proporsi lengkungannya tetap sama */
+    margin-bottom: 16px;
+}
+
+.close-btn i {
+    font-size: 16px; 
+}
+    .modal-content {
+        width: 95%;
+        border-radius: 20px;
+    }
+    .modal-header {
+        padding: -10px 12px;
+    }
+    .modal-body {
+        padding: 16px 20px 20px 20px;
+    }
+    .tutorial-card {
+        padding: 16px;
+    }
+    .code-block pre {
+        font-size: 13px; /* Dikecilkan sedikit di mobile agar tidak mentok */
+    }
+}
+
+/* Header utama tutorial */
+.tutorial-card-header i{
+    color:#a855f7;
+}
+
+/* Sub icon */
+.section-title i{
+    color:#22d3ee;
+}
